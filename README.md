@@ -1,4 +1,4 @@
-# CopilotKit <> LangGraph AG-UI Canvas Starter
+# CardiGraph - AI-Powered Visual Canvas Application
 
 <div align="center">
   
@@ -8,11 +8,28 @@
   
 </div>
 
-This is a starter template for building AI-powered canvas applications using [LangGraph](https://www.langchain.com/langgraph) and [CopilotKit](https://copilotkit.ai). It provides a modern Next.js application with an integrated LangGraph agent that manages a visual canvas of interactive cards with real-time AI synchronization.
+**CardiGraph** is a modern SaaS application for building and managing complex workflows with AI-powered automation. Built with [LangGraph](https://www.langchain.com/langgraph), [CopilotKit](https://copilotkit.ai), and [Next.js](https://nextjs.org), it provides an intuitive visual canvas interface with real-time AI collaboration.
+
+## 📦 Quick Start
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/vedantparmar12/AG-UI-canvas.git
+cd AG-UI-canvas
+```
 
 
 ## 🚀 Key Features
 
+### Landing Page
+- **Modern SaaS Design**: Fully responsive landing page with beautiful animations
+- **Interactive Hero Section**: Powered by Unicorn Studio animation
+- **Feature Showcase**: Highlighting key capabilities with stunning visuals
+- **Template Gallery**: Pre-built templates for various use cases
+- **Call-to-Action**: Conversion-optimized signup flow
+
+### Canvas Application (at `/canvas`)
 - **Visual Canvas Interface**: Drag-free canvas displaying cards in a responsive grid layout
 - **Four Card Types**: 
   - **Project**: Includes text fields, dropdown, date picker, and checklist
@@ -22,47 +39,127 @@ This is a starter template for building AI-powered canvas applications using [La
 - **Real-time AI Sync**: Bidirectional synchronization between the AI agent and UI canvas
 - **Multi-step Planning**: AI can create and execute plans with visual progress tracking
 - **Human-in-the-Loop (HITL)**: Intelligent interrupts for clarification when needed
+- **Theme Customization**: Multiple color themes with oklch color space
+- **Layout Options**: Grid, masonry, and list layouts with adjustable density
 - **JSON View**: Toggle between visual canvas and raw JSON state
 - **Responsive Design**: Optimized for both desktop (sidebar chat) and mobile (popup chat)
 
-## Prerequisites
+## 📋 Prerequisites
 
-- Node.js 18+ 
-- Python 3.12+
-- Any of the following package managers:
+Before you begin, ensure you have the following installed:
+
+- **Node.js** 18 or higher ([Download](https://nodejs.org/))
+- **Python** 3.12 or higher ([Download](https://www.python.org/downloads/))
+- **Package Manager** (choose one):
   - [pnpm](https://pnpm.io/installation) (recommended)
-  - npm
-  - [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
+  - npm (comes with Node.js)
+  - [yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
   - [bun](https://bun.sh/)
-- OpenAI API Key (for the LangGraph agent)
+- **OpenAI API Key** - Get yours from [OpenAI Platform](https://platform.openai.com/api-keys)
 
-> **Note:** This repository ignores lock files (package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lock) to avoid conflicts between different package managers. Each developer should generate their own lock file using their preferred package manager. After that, make sure to delete it from the .gitignore.
+> **Note:** This repository ignores lock files to avoid conflicts between different package managers. Each developer should generate their own lock file using their preferred package manager.
 
-## Getting Started
+## ⚙️ Setup & Installation
 
-1. Install dependencies using your preferred package manager:
+### Step 1: Install Dependencies
+
+Choose your preferred package manager and run:
+
 ```bash
+# Using npm
+npm install
+
 # Using pnpm (recommended)
 pnpm install
 
+# Using yarn
+yarn install
+
+# Using bun
+bun install
 ```
 
-> **Note:** Installing the package dependencies will also install the agent's Python dependencies via the `install:agent` script.
+> **Note:** The installation will automatically set up the Python environment and install agent dependencies via the `install:agent` script.
 
+### Step 2: Configure Environment Variables
 
-2. Set up your OpenAI API key:
+Create a `.env` file in the `agent` directory with your OpenAI API key:
+
 ```bash
+# Unix/Linux/MacOS
 echo 'OPENAI_API_KEY=your-openai-api-key-here' > agent/.env
+
+# Windows (PowerShell)
+echo "OPENAI_API_KEY=your-openai-api-key-here" | Out-File -FilePath agent\.env -Encoding utf8
+
+# Or manually create agent/.env and add:
+# OPENAI_API_KEY=your-openai-api-key-here
 ```
 
-3. Start the development server:
+Optional: For CopilotCloud integration, create `.env.local` in the root directory:
+
 ```bash
+COPILOT_CLOUD_PUBLIC_API_KEY=your-copilot-cloud-key
+```
+
+### Step 3: Start the Development Server
+
+Run the development server using your package manager:
+
+```bash
+# Using npm
+npm run dev
+
 # Using pnpm
 pnpm dev
 
+# Using yarn
+yarn dev
+
+# Using bun
+bun dev
 ```
 
-This will start both the UI and agent servers concurrently.
+This command starts both servers concurrently:
+- **Frontend (Next.js)**: http://localhost:3000
+- **Backend (LangGraph Agent)**: http://localhost:8123
+
+### Step 4: Access the Application
+
+Open your browser and navigate to:
+- **Landing Page**: http://localhost:3000
+- **Canvas Application**: http://localhost:3000/canvas
+
+## 🎯 Project Structure
+
+```
+AG-UI-canvas/
+├── src/
+│   ├── app/
+│   │   ├── page.tsx              # Landing page
+│   │   ├── canvas/
+│   │   │   └── page.tsx          # Canvas application
+│   │   ├── layout.tsx            # Root layout
+│   │   └── globals.css           # Global styles with oklch colors
+│   ├── components/
+│   │   ├── landing/              # Landing page components
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── HeroSection.tsx
+│   │   │   ├── FeaturesSection.tsx
+│   │   │   ├── TemplatesSection.tsx
+│   │   │   ├── CTASection.tsx
+│   │   │   └── Footer.tsx
+│   │   ├── canvas/               # Canvas components
+│   │   └── ui/                   # ShadCN UI components
+│   ├── lib/
+│   │   └── canvas/               # Canvas utilities & types
+│   └── types/                    # TypeScript declarations
+├── agent/
+│   ├── agent.py                  # LangGraph agent
+│   ├── requirements.txt          # Python dependencies
+│   └── .env                      # API keys (create this)
+└── public/                       # Static assets
+```
 
 ## Getting Started with the Canvas
 
