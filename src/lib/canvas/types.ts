@@ -10,7 +10,7 @@ export interface LinkItem {
   url: string;
 }
 
-export type CardType = "project" | "entity" | "note" | "chart";
+export type CardType = "project" | "entity" | "note" | "chart" | "swot";
 
 export interface ProjectData {
   field1: string; // text
@@ -42,7 +42,14 @@ export interface ChartData {
   field1_id: number; // id counter
 }
 
-export type ItemData = ProjectData | EntityData | NoteData | ChartData;
+export interface SWOTData {
+  strengths: string[]; // list of strengths
+  weaknesses: string[]; // list of weaknesses
+  opportunities: string[]; // list of opportunities
+  threats: string[]; // list of threats
+}
+
+export type ItemData = ProjectData | EntityData | NoteData | ChartData | SWOTData;
 
 export interface Item {
   id: string;
@@ -50,12 +57,31 @@ export interface Item {
   name: string; // editable title
   subtitle: string; // subtitle shown under the title
   data: ItemData;
+  customColor?: string; // hex color for card background
+  customIcon?: string; // lucide icon name
 }
 
 export interface PlanStep {
   title: string;
   status: "pending" | "in_progress" | "completed" | "blocked" | "failed";
   note?: string;
+}
+
+export type LayoutType = "grid" | "masonry" | "list" | "compact";
+export type LayoutDensity = "comfortable" | "compact" | "spacious";
+export type ThemeName = "default" | "dark" | "ocean" | "forest" | "sunset" | "high-contrast" | "custom";
+
+export interface CanvasTheme {
+  name: ThemeName;
+  colors: {
+    primary: string;
+    secondary: string;
+    accent: string;
+    background: string;
+    card: string;
+    text: string;
+    border: string;
+  };
 }
 
 export interface AgentState {
@@ -67,6 +93,11 @@ export interface AgentState {
   planSteps: PlanStep[];
   currentStepIndex: number;
   planStatus: string;
+  // Theme & Layout customization
+  canvasTheme?: CanvasTheme;
+  layoutType?: LayoutType;
+  layoutDensity?: LayoutDensity;
+  customFontFamily?: string;
 }
 
 

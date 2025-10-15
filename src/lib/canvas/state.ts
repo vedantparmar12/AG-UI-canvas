@@ -1,4 +1,6 @@
-import { AgentState, CardType, ChartData, EntityData, ItemData, NoteData, ProjectData } from "@/lib/canvas/types";
+import { AgentState, CardType, ChartData, EntityData, ItemData, NoteData, ProjectData, SWOTData } from "@/lib/canvas/types";
+
+import { THEME_PRESETS } from "./themes";
 
 export const initialState: AgentState = {
   items: [],
@@ -9,6 +11,10 @@ export const initialState: AgentState = {
   planSteps: [],
   currentStepIndex: -1,
   planStatus: "",
+  canvasTheme: THEME_PRESETS.default,
+  layoutType: "grid",
+  layoutDensity: "comfortable",
+  customFontFamily: undefined,
 };
 
 export function isNonEmptyAgentState(value: unknown): value is AgentState {
@@ -38,6 +44,13 @@ export function defaultDataFor(type: CardType): ItemData {
       return { field1: "" } as NoteData;
     case "chart":
       return { field1: [], field1_id: 0 } as ChartData;
+    case "swot":
+      return {
+        strengths: [],
+        weaknesses: [],
+        opportunities: [],
+        threats: [],
+      } as SWOTData;
     default:
       return { field1: "" } as NoteData;
   }

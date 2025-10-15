@@ -13,12 +13,15 @@ import ShikiHighlighter from "react-shiki/web";
 import { motion, useScroll, useTransform, useMotionValueEvent } from "motion/react";
 import { EmptyState } from "@/components/empty-state";
 import { cn } from "@/lib/utils";
-import type { AgentState, PlanStep, Item, ItemData, ProjectData, EntityData, NoteData, ChartData, CardType } from "@/lib/canvas/types";
-import { initialState, isNonEmptyAgentState } from "@/lib/canvas/state";
+import type { AgentState, PlanStep, Item, ItemData, ProjectData, EntityData, NoteData, ChartData, CardType, CanvasTheme, LayoutType, LayoutDensity } from "@/lib/canvas/types";
+import { initialState, isNonEmptyAgentState, defaultDataFor } from "@/lib/canvas/state";
 import { projectAddField4Item, projectSetField4ItemText, projectSetField4ItemDone, projectRemoveField4Item, chartAddField1Metric, chartSetField1Label, chartSetField1Value, chartRemoveField1Metric } from "@/lib/canvas/updates";
 import useMediaQuery from "@/hooks/use-media-query";
 import ItemHeader from "@/components/canvas/ItemHeader";
 import NewItemMenu from "@/components/canvas/NewItemMenu";
+import { ThemePicker } from "@/components/canvas/ThemePicker";
+import { LayoutSwitcher } from "@/components/canvas/LayoutSwitcher";
+import { applyTheme } from "@/lib/canvas/themes";
 
 export default function CopilotKitPage() {
   const { state, setState } = useCoAgent<AgentState>({
@@ -76,6 +79,26 @@ export default function CopilotKitPage() {
   useEffect(() => {
     console.log("[CoAgent state updated]", state);
   }, [state]);
+
+  // Apply theme when it changes
+  useEffect(() => {
+    if (viewState?.canvasTheme) {
+      applyTheme(viewState.canvasTheme);
+    }
+  }, [viewState?.canvasTheme]);
+
+  // Theme and layout handlers
+  const handleThemeChange = useCallback((theme: CanvasTheme) => {
+    setState((prev) => ({ ...(prev ?? initialState), canvasTheme: theme }));
+  }, [setState]);
+
+  const handleLayoutChange = useCallback((layout: LayoutType) => {
+    setState((prev) => ({ ...(prev ?? initialState), layoutType: layout }));
+  }, [setState]);
+
+  const handleDensityChange = useCallback((density: LayoutDensity) => {
+    setState((prev) => ({ ...(prev ?? initialState), layoutDensity: density }));
+  }, [setState]);
 
   // Reset JSON view when there are no items
   useEffect(() => {
@@ -361,33 +384,6 @@ export default function CopilotKitPage() {
   }, [updateItemData]);
 
   // Remove checklist item local helper removed; use Copilot action instead
-
-  // Helper to generate default data by type
-  const defaultDataFor = useCallback((type: CardType): ItemData => {
-    switch (type) {
-      case "project":
-        return {
-          field1: "",
-          field2: "",
-          field3: "",
-          field4: [],
-          field4_id: 0,
-        } as ProjectData;
-      case "entity":
-        return {
-          field1: "",
-          field2: "",
-          field3: [],
-          field3_options: ["Tag 1", "Tag 2", "Tag 3"],
-        } as EntityData;
-      case "note":
-        return { field1: "" } as NoteData;
-      case "chart":
-        return { field1: [], field1_id: 0 } as ChartData;
-      default:
-        return { content: "" } as NoteData;
-    }
-  }, []);
 
   const addItem = useCallback((type: CardType, name?: string) => {
     const t: CardType = type;
@@ -1187,16 +1183,28 @@ export default function CopilotKitPage() {
           {(viewState.items ?? []).length > 0 ? (
             <div className={cn(
               "absolute left-1/2 -translate-x-1/2 bottom-4",
-              "inline-flex rounded-lg shadow-lg bg-card",
-              "[&_button]:bg-card [&_button]:w-22 md:[&_button]:h-10",
+              "inline-flex rounded-lg shadow-lg bg-card gap-0",
+              "[&_button]:bg-card [&_button]:w-auto md:[&_button]:h-10",
               "[&_button]:shadow-none! [&_button]:hover:bg-accent",
               "[&_button]:hover:border-accent [&_button]:hover:text-accent",
               "[&_button]:hover:bg-accent/10!",
             )}>
+              <ThemePicker
+                currentTheme={viewState?.canvasTheme}
+                onThemeChange={handleThemeChange}
+                className="rounded-r-none border-r-0"
+              />
+              <LayoutSwitcher
+                currentLayout={viewState?.layoutType}
+                currentDensity={viewState?.layoutDensity}
+                onLayoutChange={handleLayoutChange}
+                onDensityChange={handleDensityChange}
+                className="rounded-none border-r-0"
+              />
               <NewItemMenu
                 onSelect={(t: CardType) => addItem(t)}
                 align="center"
-                className="rounded-r-none border-r-0 peer"
+                className="rounded-none border-r-0 peer"
               />
               <Button
                 type="button"

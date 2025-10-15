@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 import { X, Plus } from "lucide-react";
 import TextareaAutosize from "react-textarea-autosize";
 import { Progress } from "@/components/ui/progress";
-import type { ChartData, EntityData, Item, ItemData, NoteData, ProjectData } from "@/lib/canvas/types";
+import type { ChartData, EntityData, Item, ItemData, NoteData, ProjectData, SWOTData } from "@/lib/canvas/types";
+import { SWOTCardRenderer } from "./SWOTCardRenderer";
 import { chartAddField1Metric, chartRemoveField1Metric, chartSetField1Label, chartSetField1Value, projectAddField4Item, projectRemoveField4Item, projectSetField4ItemDone, projectSetField4ItemText } from "@/lib/canvas/updates";
 
 export function CardRenderer(props: {
@@ -182,6 +183,11 @@ export function CardRenderer(props: {
         </div>
       </div>
     );
+  }
+
+  if (item.type === "swot") {
+    const d = item.data as SWOTData;
+    return <SWOTCardRenderer data={d} onUpdateData={onUpdateData as (updater: (prev: SWOTData) => SWOTData) => void} />;
   }
 
   const e = item.data as EntityData;

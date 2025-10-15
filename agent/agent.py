@@ -31,7 +31,7 @@ if 'langgraph.graph.graph' not in sys.modules:
 # Now we can safely import everything else
 from typing import Any, List, Optional, Dict
 from typing_extensions import Literal
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, BaseMessage, HumanMessage, AIMessage, ToolMessage
 from langchain_core.runnables import RunnableConfig
 from langchain.tools import tool
@@ -121,16 +121,83 @@ def complete_plan():
     """
     return {"completed": True}
 
-# @tool
-# def your_tool_here(your_arg: str):
-#     """Your tool description here."""
-#     print(f"Your tool logic here")
-#     return "Your tool response here."
+@tool
+def generate_ideas(topic: str, count: int = 5, context: Optional[str] = None):
+    """
+    Generate creative ideas for a given topic. Returns a list of idea descriptions.
+    Use this when the user asks for brainstorming, idea generation, or creative suggestions.
+
+    Args:
+        topic: The main subject or problem to generate ideas about
+        count: Number of ideas to generate (default 5, max 10)
+        context: Optional additional context or constraints
+    """
+    return {
+        "topic": topic,
+        "count": min(count, 10),
+        "context": context or "",
+        "instruction": f"Generate {min(count, 10)} creative ideas about '{topic}'. Create note cards with each idea."
+    }
+
+@tool
+def create_swot_analysis(subject: str, context: Optional[str] = None):
+    """
+    Create a SWOT analysis (Strengths, Weaknesses, Opportunities, Threats) for a given subject.
+    Returns structured SWOT data.
+
+    Args:
+        subject: The entity, project, or concept to analyze
+        context: Optional background information
+    """
+    return {
+        "subject": subject,
+        "context": context or "",
+        "instruction": f"Create a SWOT analysis card for '{subject}' with strengths, weaknesses, opportunities, and threats."
+    }
+
+@tool
+def expand_idea(idea: str, expansion_type: Literal["sub_ideas", "action_steps", "pros_cons", "questions"] = "sub_ideas"):
+    """
+    Expand a single idea into more detailed components.
+
+    Args:
+        idea: The idea to expand
+        expansion_type: How to expand the idea:
+            - sub_ideas: Break into smaller related ideas
+            - action_steps: Convert into actionable steps (project with checklist)
+            - pros_cons: Analyze advantages and disadvantages
+            - questions: Generate clarifying questions
+    """
+    return {
+        "idea": idea,
+        "expansion_type": expansion_type,
+        "instruction": f"Expand the idea '{idea}' by creating {expansion_type}."
+    }
+
+@tool
+def generate_alternatives(scenario: str, current_approach: Optional[str] = None):
+    """
+    Generate alternative approaches or scenarios for a given situation.
+    Use for "what if" analysis or exploring different options.
+
+    Args:
+        scenario: The situation or problem to explore
+        current_approach: Optional description of the current plan
+    """
+    return {
+        "scenario": scenario,
+        "current_approach": current_approach or "",
+        "instruction": f"Generate 3-5 alternative approaches for: {scenario}"
+    }
 
 backend_tools = [
     set_plan,
     update_plan_progress,
     complete_plan,
+    generate_ideas,
+    create_swot_analysis,
+    expand_idea,
+    generate_alternatives,
 ]
 
 # Extract tool names from backend_tools for comparison
@@ -186,7 +253,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
     """
 
     # 1. Define the model
-    model = ChatOpenAI(model="gpt-4o")
+    model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.7)
 
     # 2. Prepare and bind tools to the model (dedupe, allowlist, and cap)
     def _extract_tool_name(tool: Any) -> Optional[str]:
