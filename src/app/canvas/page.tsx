@@ -749,7 +749,7 @@ export default function CopilotKitPage() {
     ],
     handler: ({ value, itemId }: { value: string; itemId: string }) => {
       updateItemData(itemId, (prev) => {
-        const anyPrev = prev;
+        const anyPrev = prev as { field1?: string };
         if (typeof anyPrev.field1 === "string") {
           return { ...anyPrev, field1: value } as ItemData;
         }
