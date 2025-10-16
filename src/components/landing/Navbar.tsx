@@ -38,39 +38,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-primary-foreground"
-              >
-                <path
-                  d="M12 2L2 7L12 12L22 7L12 2Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M2 17L12 22L22 17"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M2 12L12 17L22 12"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+          <Link href="/" className="flex items-center">
             <span className="text-xl font-bold text-foreground">
               CardiGraph
             </span>
@@ -82,7 +50,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm font-bold text-foreground hover:text-primary transition-colors"
               >
                 {link.name}
               </Link>
@@ -92,10 +60,10 @@ export function Navbar() {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" asChild>
-              <Link href="/demo">Try the Demo</Link>
+              <Link href="/sign-in">Sign In</Link>
             </Button>
             <Button asChild>
-              <Link href="/signup">Sign Up</Link>
+              <Link href="/sign-up">Sign Up</Link>
             </Button>
           </div>
 
@@ -117,7 +85,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="block text-sm font-bold text-foreground hover:text-primary transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -125,10 +93,10 @@ export function Navbar() {
             ))}
             <div className="pt-4 space-y-2">
               <Button variant="ghost" className="w-full" asChild>
-                <Link href="/demo">Try the Demo</Link>
+                <Link href="/sign-in">Sign In</Link>
               </Button>
               <Button className="w-full" asChild>
-                <Link href="/signup">Sign Up</Link>
+                <Link href="/sign-up">Sign Up</Link>
               </Button>
             </div>
           </div>

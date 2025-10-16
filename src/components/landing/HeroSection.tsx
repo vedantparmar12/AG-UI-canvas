@@ -92,7 +92,7 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 pt-4"
             >
-              <Button size="lg" className="text-lg px-8 py-6" asChild>
+              <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
                 <Link href="/canvas">
                   Start Building
                   <ArrowRight className="ml-2 w-5 h-5" />
