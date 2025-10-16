@@ -10,11 +10,11 @@ export function HeroSection() {
   useEffect(() => {
     // Initialize UnicornStudio
     if (!window.UnicornStudio) {
-      window.UnicornStudio = { isInitialized: false };
+      window.UnicornStudio = { isInitialized: false, init: () => {} };
       const script = document.createElement("script");
       script.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.33/dist/unicornStudio.umd.js";
       script.onload = function() {
-        if (!window.UnicornStudio.isInitialized) {
+        if (window.UnicornStudio && !window.UnicornStudio.isInitialized) {
           window.UnicornStudio.init();
           window.UnicornStudio.isInitialized = true;
         }
@@ -92,7 +92,7 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 pt-4"
             >
-              <Button size="lg" className="text-lg px-8 py-6" asChild>
+              <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
                 <Link href="/canvas">
                   Start Building
                   <ArrowRight className="ml-2 w-5 h-5" />
