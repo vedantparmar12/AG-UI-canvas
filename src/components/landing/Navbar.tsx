@@ -3,20 +3,25 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { openFuzzieInstructions } from "@/lib/fuzzie-redirect";
 
 const navLinks = [
   { name: "Features", href: "#features" },
+  { name: "Canvas", href: "/canvas" },
+  { name: "Fuzzie", href: "#fuzzie" },
   { name: "Templates", href: "#templates" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Community", href: "#community" },
   { name: "Docs", href: "#docs" },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleRedirectToFuzzie = () => {
+    openFuzzieInstructions();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,10 +65,18 @@ export function Navbar() {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" asChild>
-              <Link href="/sign-in">Sign In</Link>
+              <Link href="/canvas">Try Canvas</Link>
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={handleRedirectToFuzzie}
+              className="border-purple-500 text-purple-600 hover:bg-purple-50"
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              Fuzzie
             </Button>
             <Button asChild>
-              <Link href="/sign-up">Sign Up</Link>
+              <Link href="/workflows">Start Building</Link>
             </Button>
           </div>
 
@@ -93,10 +106,21 @@ export function Navbar() {
             ))}
             <div className="pt-4 space-y-2">
               <Button variant="ghost" className="w-full" asChild>
-                <Link href="/sign-in">Sign In</Link>
+                <Link href="/canvas">Try Canvas</Link>
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full border-purple-500 text-purple-600 hover:bg-purple-50"
+                onClick={() => {
+                  handleRedirectToFuzzie();
+                  setIsMobileMenuOpen(false);
+                }}
+              >
+                <ExternalLink className="w-4 h-4 mr-2" />
+                Fuzzie Platform
               </Button>
               <Button className="w-full" asChild>
-                <Link href="/sign-up">Sign Up</Link>
+                <Link href="/workflows">Start Building</Link>
               </Button>
             </div>
           </div>

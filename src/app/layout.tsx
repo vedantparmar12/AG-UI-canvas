@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 
-import { Manrope } from "next/font/google";
+import { Inter } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 import "@copilotkit/react-ui/styles.css";
 
-const manrope = Manrope({
+// Using Inter as a more reliable alternative to Manrope
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-inter",
+  fallback: ['system-ui', 'arial'],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${GeistMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${GeistMono.variable}`}>
       <body className="subpixel-antialiased">
         {children}
       </body>
