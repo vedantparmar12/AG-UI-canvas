@@ -81,8 +81,8 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-xl md:text-2xl text-muted-foreground max-w-2xl"
             >
-              Build, manage, and automate complex projects with a real-time,
-              AI-powered visual canvas.
+              Build visual workflows, automate complex processes, and manage projects with 
+              AI-powered tools. No payment required - start building immediately.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -92,9 +92,9 @@ export function HeroSection() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 pt-4"
             >
-              <Button size="lg" variant="outline" className="text-lg px-8 py-6" asChild>
-                <Link href="/canvas">
-                  Start Building
+              <Button size="lg" className="text-lg px-8 py-6 shadow-lg hover:shadow-xl transition-all" asChild>
+                <Link href="/workflows">
+                  Start Building Workflows
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
               </Button>
@@ -104,7 +104,7 @@ export function HeroSection() {
                 className="text-lg px-8 py-6"
                 asChild
               >
-                <Link href="#features">Learn More</Link>
+                <Link href="/canvas">Try Visual Canvas</Link>
               </Button>
             </motion.div>
 
